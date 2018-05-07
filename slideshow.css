@@ -1,0 +1,301 @@
+html {
+    min-height: 100%;
+    height: 100%;
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: #e0e0e0;
+    height: 100%;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+@keyframes timer {
+    from {width: 0%;}
+    to {width: 100%;}
+}
+.bss-timer {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    right: 2rem;
+    height: 0.5rem;
+    background: hsla(0,0%,100%,0.5);
+    border-radius: 4px;
+    z-index: 9999;
+    overflow: hidden;
+    opacity: 0;
+    -webkit-box-shadow:
+            0 2px 3px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.18);
+    -moz-box-shadow:
+            0 2px 3px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.18);
+    box-shadow:
+            0 2px 3px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.18);
+}
+.bss-timer--status {
+    width: 0%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0.5rem;
+    background: hsla(0,0%,100%,0.8);
+    -webkit-transition: width 5s linear;
+    transition: opacity 0.25s;
+}
+.bss-timer.is--playing {
+    opacity: 1;
+}
+.bss-timer.is--playing .bss-timer--status {
+
+    animation-name: timer;
+    animation-duration: 30000ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+
+
+}
+
+.bss-controls {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    height: 2rem;
+    z-index: 9999;
+    width: 50%;
+    display: block;
+    text-align: right;
+}
+.bss-controls .control--buttons, .bss-controls .control--durations {
+    display: inline-block;
+}
+.bss-controls  a {
+    color: #000;
+    position: relative;
+    display: inline-block;
+    text-align:center;
+    vertical-align: top;
+    min-width: 2rem;
+    padding: 0.4rem 0.7rem;
+    margin-right: 2px;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    background: rgba(255,255,255, 1);
+    font-size: 1rem;
+    font-weight: bold;
+    opacity: 1;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    -webkit-box-shadow:
+            0 2px 3px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.18);
+    -moz-box-shadow:
+            0 2px 3px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.18);
+    box-shadow:
+            0 2px 3px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.04),
+            0 1px 2px 0 hsla(0,0%,0%,0.18);
+}
+.bss-controls  a:hover {
+    background:hsl(0,0%,90%);
+    -webkit-box-shadow:
+            0 0px 6px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.18);
+    -moz-box-shadow:
+            0 2px 6px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.18);
+    box-shadow:
+            0 2px 6px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.18);
+}
+
+.bss-fullscreen{
+    background: rgba(0,0,0,.3) url(https://leemark.github.io/better-simple-slideshow/img/arrows-alt_ffffff_64.png);
+    background-size: contain;
+    cursor: pointer;
+    opacity: .3;
+}
+.bss-fullscreen:hover{
+    opacity: .8;
+}
+.bss-controls .control--buttons a {
+    background: #232323;
+    color: #fff;
+    text-align: center;
+}
+.bss-controls .control--buttons a:hover {
+    background:hsl(0,0%,26%);
+}
+.bss-slides.is--paused .bss-play-pause::before {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1.5rem;
+    background: url("icons/ic_play_arrow_white_24px.svg") no-repeat center;
+}
+.bss-slides .bss-play-pause::before {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1.5rem;
+    background: url("icons/ic_pause_white_24px.svg") no-repeat center;
+}
+.bss-slides{
+    background: transparent;
+    position: relative;
+    display: block;
+    height: 100%;
+}
+.bss-slides:focus{
+    outline: 0;
+}
+.bss-slides.is--paused .bss-timer .bss-timer--status {
+    animation-play-state: paused !important;
+}
+
+.bss-slides figure{
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    left: 0%;
+    display: table;
+    overflow: hidden;
+    margin: 0;
+}
+.bss-slides figure > picture {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.bis-slides figure div img {
+    margin: 0 auto;
+}
+.bss-slides figure:first-child{
+    position: relative;
+}
+.bss-slides figure img{
+    opacity: 0;
+    transition: opacity 1.2s;
+    position: relative;
+    width: auto;
+    max-width: 100vw;
+    height: auto;
+    max-height: 100vh;
+
+    /*-webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      */
+}
+.bss-slides .bss-show {
+    z-index: 4;
+}
+.bss-slides .bss-show img{
+    opacity: 1;
+    transform: scale(1);
+
+    -webkit-box-shadow:
+            0px 2px 6px hsla(0,0%,0%,0.04),
+    0px 1px 2px hsla(0,0%,0%,0.04),
+    0px 1px 2px hsla(0,0%,0%,0.18);
+
+    -moz-box-shadow: 0px 2px 6px hsla(0,0%,0%,0.04),
+    0px 1px 2px hsla(0,0%,0%,0.04),
+    0px 1px 2px hsla(0,0%,0%,0.18);
+    box-shadow: 0px 2px 6px hsla(0,0%,0%,0.04),
+    0px 1px 2px hsla(0,0%,0%,0.04),
+    0px 1px 2px hsla(0,0%,0%,0.18);
+
+    /* -webkit-backface-visibility: hidden;
+     backface-visibility: hidden;*/
+}
+
+.bss-slides figcaption{
+    position: fixed;
+    font-size: .9rem;
+    bottom: 2rem;
+    left: 2rem;
+    line-height: 1.2;
+    width: 45%;
+    color: #ffffff;
+    opacity: 0;
+    display: block;
+    padding: 0.4rem 0.4rem;
+    transition: opacity 1.2s;
+    text-shadow: 1px 2px rgba(0,0,0,0.18);
+    border-radius: 4px;
+    z-index: 9999;
+
+}
+.bss-slides figcaption:hover {
+    background: rgba(0,0,0,0.18);
+}
+.bss-slides figcaption.cc-0::before {
+    content:"CC 0";
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    border: 2px solid #fff;
+    margin-right: 1rem;
+    font-weight: 700;
+    float:left;
+}
+.bss-slides .bss-show figcaption{
+    z-index: 2;
+    opacity: 1;
+
+}
+.bss-slides figcaption a{
+    color: #fff;
+}
+
+:-webkit-full-screen .bss-fullscreen{
+    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
+    background-size: contain;
+}
+:-moz-full-screen .bss-fullscreen{
+    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
+    background-size: contain;
+}
+:-ms-fullscreen .bss-fullscreen{
+    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
+    background-size: contain;
+}
+:full-screen .bss-fullscreen{
+    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
+    background-size: contain;
+}
+:-webkit-full-screen .bss-fullscreen{
+    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
+    background-size: contain;
+}
+:-moz-full-screen .bss-fullscreen{
+    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
+    background-size: contain;
+}
+:-ms-fullscreen .bss-fullscreen{
+    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
+    background-size: contain;
+}
+:fullscreen .bss-fullscreen{
+    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
+    background-size: contain;
+}
