@@ -5,14 +5,17 @@
 
 var makeBSS = function (el, options) {
     var $slideshows = document.querySelectorAll(el), // a collection of all of the slideshow
-        startInterval = Date.now(),
+
         currentInterval = 0,
         $slideshow = {},
         Slideshow = {
             init: function (el, options) {
+
+
                 this.counter = 0; // to keep track of current slide
                 this.el = el; // current slideshow container
                 this.timerStatus = el.querySelectorAll('.bss-timer');
+                this.startInterval = Date.now(),
                 this.$items = el.querySelectorAll('figure'); // a collection of all of the slides, caching for performance
                 this.numItems = this.$items.length; // total number of slides
 
@@ -29,10 +32,7 @@ var makeBSS = function (el, options) {
 
                 this.$items[0].classList.add('bss-show'); // add show class to first figure
                 this.timerStatus[0].classList.add('is--playing');
-                document.querySelector('.bss-timer--status').style.webkitAnimationDuration = "30s";
-                document.querySelector('.bss-timer--status').style.mozAnimationDuration = "30s";
-                document.querySelector('.bss-timer--status').style.msAnimationDuration = "30s";
-                document.querySelector('.bss-timer--status').style.animationDuration = "30s";
+                this.setAnimationDuration('.bss-timer--status','3s');
 
                 //this.injectControls(el);
                 this.addEventListeners(el);
@@ -45,9 +45,22 @@ var makeBSS = function (el, options) {
                 if (this.opts.swipe) {
                     this.addSwipe(this.el);
                 }
+
+
             },
             showCurrent: function (i) {
+                startInterval = Date.now();
 
+                console.log("scc: " + startInterval + ",ccc: " + currentInterval);
+
+                var frames = window.setInterval(function() {
+                    currentInterval = Date.now();
+
+                        width =  (currentInterval - startInterval) / opts.auto.speed;
+
+                        document.querySelector('.bss-timer--status').style.width = width * 100 + "%";
+
+                },10);
                 // increment or decrement this.counter depending on whether i === 1 or i === -1
                 /*
                 if (i > 0) {
@@ -65,8 +78,6 @@ var makeBSS = function (el, options) {
                     this.counter = Math.floor(Math.random()*this.numItems);
                 }
 
-               // console.log(this.numItems + ', ' + this.counter )
-
                 this.timerStatus[0].classList.remove('is--playing');
 
                 // remove .show from whichever element currently has it
@@ -74,26 +85,22 @@ var makeBSS = function (el, options) {
                 [].forEach.call(this.$items, function (el) {
                     el.classList.remove('bss-show');
                 });
-                this.currentInterval = 0;
-
 
                 // add .show to the one item that's supposed to have it
                 this.$items[this.counter].classList.add('bss-show');
 
-
                 void this.timerStatus[0].offsetWidth;
                 this.timerStatus[0].classList.add('is--playing');
 
-
-                startInterval = Date.now();
-
-
+                speed = opts.auto.speed;
             },
             setAnimationDuration: function (el,duration) {
+/*
                 document.querySelector(el).style.webkitAnimationDuration = duration;
                 document.querySelector(el).style.mozAnimationDuration = duration;
                 document.querySelector(el).style.msAnimationDuration = duration;
                 document.querySelector(el).style.animationDuration = duration;
+*/
             },
             addEventListeners: function (el) {
                 var that = this;
@@ -119,80 +126,67 @@ var makeBSS = function (el, options) {
                 var that = this,
                     interval = window.setInterval(function () {
                         that.showCurrent(1); // increment & show
-                    }, opts.auto.speed);
+
+                        window.clearInterval(frame);
+                        console.log("frames cleared" + frame);
+                           }, opts.auto.speed);
 
 
                     document.querySelector('.bss-play-pause').addEventListener('click', function () {
                     if (document.querySelector('.bss-slides').classList.contains('is--paused')) {
-                        console.log("Who");
                         document.querySelector('.bss-slides').classList.remove('is--paused');
+                        console.log("speed: " + speed);
                         interval = window.setInterval(function () {
                             that.showCurrent(1); // increment & show
                         }, speed);
+                        startInterval = Date.now();
+                        setSpeed = false;
                     } else {
+                        currentInterval = Date.now() - startInterval;
+                        console.log("cc: " + currentInterval + "/" + opts.auto.speed);
                         document.querySelector('.bss-slides').classList.add('is--paused');
-                        console.log("What");
                         interval = clearInterval(interval);
+
                     }
                 }, false);
 
 
 
                 el.querySelector('.bss-10min').addEventListener('click', function () {
-                    opts.auto.speed = 1000 * 60 * 10;
+                    opts.auto.speed = 1000 * 6 * 10;
                     console.log('speed: ' + opts.auto.speed);
-                    that.setAnimationDuration('.bss-timer--status','600s');
-                    /*
-                    document.querySelector('.bss-timer--status').style.webkitAnimationDuration = "600s";
-                    document.querySelector('.bss-timer--status').style.mozAnimationDuration = "600s";
-                    document.querySelector('.bss-timer--status').style.msAnimationDuration = "600s";
-                    document.querySelector('.bss-timer--status').style.animationDuration = "600s";
-                    */
+                    that.setAnimationDuration('.bss-timer--status','60s');
+
                     interval = clearInterval(interval);
                     window.setInterval(function () {
                         that.showCurrent(1); // increment & show
                     }, opts.auto.speed);
                 }, false);
                 el.querySelector('.bss-5min').addEventListener('click',function () {
-                    opts.auto.speed = 1000 * 60 * 5;
+                    opts.auto.speed = 1000 * 6 * 5;
                     console.log('speed: ' + opts.auto.speed);
-                    that.setAnimationDuration('.bss-timer--status','300s');
-                    /*
-                    document.querySelector('.bss-timer--status').style.webkitAnimationDuration = "300s";
-                    document.querySelector('.bss-timer--status').style.mozAnimationDuration = "300s";
-                    document.querySelector('.bss-timer--status').style.msAnimationDuration = "300s";
-                    document.querySelector('.bss-timer--status').style.animationDuration = "300s";
-*/
+                    that.setAnimationDuration('.bss-timer--status','30s');
+
                     interval = clearInterval(interval);
                     window.setInterval(function () {
                         that.showCurrent(1); // increment & show
                     }, opts.auto.speed);
                 }, false);
                 el.querySelector('.bss-2min').addEventListener('click',function () {
-                    opts.auto.speed = 1000 * 60 * 2;
+                    opts.auto.speed = 1000 * 6 * 2;
                     console.log('speed: ' + opts.auto.speed);
-                    that.setAnimationDuration('.bss-timer--status','120s');
-                    /*
-                    document.querySelector('.bss-timer--status').style.webkitAnimationDuration = "120s";
-                    document.querySelector('.bss-timer--status').style.mozAnimationDuration = "120s";
-                    document.querySelector('.bss-timer--status').style.msAnimationDuration = "120s";
-                    document.querySelector('.bss-timer--status').style.animationDuration = "120s";
-*/
-                    interval = clearInterval(interval);
+                    that.setAnimationDuration('.bss-timer--status','12s');
+
+                  interval = clearInterval(interval);
                     window.setInterval(function () {
                         that.showCurrent(1); // increment & show
                     }, opts.auto.speed);
                 }, false);
                 el.querySelector('.bss-1min').addEventListener('click',function () {
-                    opts.auto.speed = 1000 * 60;
+                    opts.auto.speed = 1000 * 6;
                     console.log('speed: ' + opts.auto.speed);
-                    that.setAnimationDuration('.bss-timer--status','60s');
-                    /*
-                    document.querySelector('.bss-timer--status').style.webkitAnimationDuration = "60s";
-                    document.querySelector('.bss-timer--status').style.mozAnimationDuration = "60s";
-                    document.querySelector('.bss-timer--status').style.msAnimationDuration = "60s";
-                    document.querySelector('.bss-timer--status').style.animationDuration = "60s";
-*/
+                    that.setAnimationDuration('.bss-timer--status','6s');
+
                     interval = clearInterval(interval);
                     window.setInterval(function () {
                         that.showCurrent(1); // increment & show
@@ -200,16 +194,11 @@ var makeBSS = function (el, options) {
                 }, false);
                 el.querySelector('.bss-30sec').addEventListener('click',function () {
 
-                    opts.auto.speed = 1000 * 30;
+                    opts.auto.speed = 1000 * 3;
                     console.log('speed: ' + opts.auto.speed);
 
-                    that.setAnimationDuration('.bss-timer--status','30s');
-                    /*
-                    document.querySelector('.bss-timer--status').style.webkitAnimationDuration = "30s";
-                    document.querySelector('.bss-timer--status').style.mozAnimationDuration = "30s";
-                    document.querySelector('.bss-timer--status').style.msAnimationDuration = "30s";
-                    document.querySelector('.bss-timer--status').style.animationDuration = "30s";
-*/
+                    that.setAnimationDuration('.bss-timer--status','3s');
+
                     interval = clearInterval(interval);
                     window.setInterval(function () {
                         that.showCurrent(1); // increment & show
@@ -288,7 +277,7 @@ var makeBSS = function (el, options) {
 };
 var opts = {
     auto: {
-        speed: 30000,
+        speed: 3000,
         pauseOnHover: false
     },
     fullScreen: true,

@@ -57,13 +57,13 @@ body{
     opacity: 1;
 }
 .bss-timer.is--playing .bss-timer--status {
-
+/*
     animation-name: timer;
     animation-duration: 30000ms;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
     animation-play-state: running;
-
+*/
 
 }
 
