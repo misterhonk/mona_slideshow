@@ -5,20 +5,18 @@
 
 var makeBSS = function (el, options) {
     var $slideshows = document.querySelectorAll(el), // a collection of all of the slideshow
-
-        currentInterval = 0,
         $slideshow = {},
         Slideshow = {
             init: function (el, options) {
-
-
-                this.counter = 0; // to keep track of current slide
                 this.el = el; // current slideshow container
                 this.timerStatus = el.querySelectorAll('.bss-timer');
-                this.startInterval = Date.now(),
+                this.progressBar = el.querySelector('.bss-timer--status');
                 this.$items = el.querySelectorAll('figure'); // a collection of all of the slides, caching for performance
+                this.$timeButtons = el.querySelectorAll('.bss-time'); // a collection of all of the slides, caching for performance
                 this.numItems = this.$items.length; // total number of slides
-
+                this.width = 0;
+                this.count = 0;
+                this.counter = 0;
 
                 options = options || {}; // if options object not passed in, then set to empty object
                 options.auto = options.auto || false; // if options.auto object not passed in, then set to false
@@ -26,13 +24,13 @@ var makeBSS = function (el, options) {
                     auto: (typeof options.auto === "undefined") ? false : options.auto,
                     speed: (typeof options.auto.speed === "undefined") ? 1500 : options.auto.speed,
                     pauseOnHover: (typeof options.auto.pauseOnHover === "undefined") ? false : options.auto.pauseOnHover,
+                    orderMode: (typeof options.auto.orderMode === "undefined") ? 'linear' : options.auto.orderMode,
                     fullScreen: (typeof options.fullScreen === "undefined") ? false : options.fullScreen,
                     swipe: (typeof options.swipe === "undefined") ? false : options.swipe
                 };
 
                 this.$items[0].classList.add('bss-show'); // add show class to first figure
                 this.timerStatus[0].classList.add('is--playing');
-                this.setAnimationDuration('.bss-timer--status','3s');
 
                 //this.injectControls(el);
                 this.addEventListeners(el);
@@ -49,34 +47,26 @@ var makeBSS = function (el, options) {
 
             },
             showCurrent: function (i) {
-                startInterval = Date.now();
 
-                console.log("scc: " + startInterval + ",ccc: " + currentInterval);
+                if (this.opts.orderMode == 'linear') {
+                    // increment or decrement this.counter depending on whether i === 1 or i === -1
 
-                var frames = window.setInterval(function() {
-                    currentInterval = Date.now();
+                    if (i > 0) {
+                        this.counter = (this.counter + 1 === this.numItems) ? 0 : this.counter + 1;
+                    } else {
+                        this.counter = (this.counter - 1 < 0) ? this.numItems - 1 : this.counter - 1;
+                    }
 
-                        width =  (currentInterval - startInterval) / opts.auto.speed;
-
-                        document.querySelector('.bss-timer--status').style.width = width * 100 + "%";
-
-                },10);
-                // increment or decrement this.counter depending on whether i === 1 or i === -1
-                /*
-                if (i > 0) {
-                    this.counter = (this.counter + 1 === this.numItems) ? 0 : this.counter + 1;
-                } else {
-                    this.counter = (this.counter - 1 < 0) ? this.numItems - 1 : this.counter - 1;
-                }
-                */
-
-                /* Randomize Next Image */
-                currentCounter = this.counter;
-                this.counter = Math.floor(Math.random()*this.numItems);
-
-                if (this.counter == currentCounter) {
+                } else if (this.opts.orderMode == 'random') {
+                    /* Randomize Next Image */
+                    currentCounter = this.counter;
                     this.counter = Math.floor(Math.random()*this.numItems);
+
+                    if (this.counter == currentCounter) {
+                        this.counter = Math.floor(Math.random()*this.numItems);
+                    }
                 }
+
 
                 this.timerStatus[0].classList.remove('is--playing');
 
@@ -86,25 +76,54 @@ var makeBSS = function (el, options) {
                     el.classList.remove('bss-show');
                 });
 
+                this.progressBar.style.transition = 'none';
+                this.progressBar.style.width = 0;
+
                 // add .show to the one item that's supposed to have it
                 this.$items[this.counter].classList.add('bss-show');
 
                 void this.timerStatus[0].offsetWidth;
                 this.timerStatus[0].classList.add('is--playing');
+            },
+            setBSSInterval: function() {
+                var that = this,
+                    count = 0,
+                    width = 0;
 
-                speed = opts.auto.speed;
+                interval = window.setInterval(function () {
+
+                    if ( that.count != 0) {
+                        count = that.count;
+                     }
+                    if (that.width != 0) {
+                        width = that.width;
+                    }
+                    if (that.width == 0 && that.count == 0) {
+                        width = 0;
+                        count = 0;
+                    }
+                    count += 1;
+                    width += 100 / (opts.auto.speed / 100) ;
+                    that.progressBar.style.transition = 'width 100ms linear';
+                    that.progressBar.style.width = width + "%";
+                    if (count > opts.auto.speed/100 ) {
+                        width = 0;
+                        count = 0;
+                        that.showCurrent(1); // increment & show
+                        that.progressBar.style.transition = 'none';
+                        that.progressBar.style.width = width + "%";
+                    }
+                    that.width = width;
+                    that.count = count;
+                }, 100);
             },
-            setAnimationDuration: function (el,duration) {
-/*
-                document.querySelector(el).style.webkitAnimationDuration = duration;
-                document.querySelector(el).style.mozAnimationDuration = duration;
-                document.querySelector(el).style.msAnimationDuration = duration;
-                document.querySelector(el).style.animationDuration = duration;
-*/
-            },
+
             addEventListeners: function (el) {
                 var that = this;
                 el.querySelector('.bss-next').addEventListener('click', function () {
+                    that.count = 0;
+                    that.width = 0;
+
                     that.showCurrent(1); // increment & show
                 }, false);
 
@@ -112,7 +131,7 @@ var makeBSS = function (el, options) {
                 el.querySelector('.bss-prev').addEventListener('click', function () {
                     that.showCurrent(-1); // decrement & show
                 }, false);
-*/
+                */
                 el.onkeydown = function (e) {
                     e = e || window.event;
                     if (e.keyCode === 37) {
@@ -123,99 +142,47 @@ var makeBSS = function (el, options) {
                 };
             },
             autoCycle: function (el, speed, pauseOnHover) {
-                var that = this,
-                    interval = window.setInterval(function () {
-                        that.showCurrent(1); // increment & show
+                var that = this;
 
-                        window.clearInterval(frame);
-                        console.log("frames cleared" + frame);
-                           }, opts.auto.speed);
-
+                    that.setBSSInterval();
 
                     document.querySelector('.bss-play-pause').addEventListener('click', function () {
-                    if (document.querySelector('.bss-slides').classList.contains('is--paused')) {
-                        document.querySelector('.bss-slides').classList.remove('is--paused');
-                        console.log("speed: " + speed);
-                        interval = window.setInterval(function () {
-                            that.showCurrent(1); // increment & show
-                        }, speed);
-                        startInterval = Date.now();
-                        setSpeed = false;
-                    } else {
-                        currentInterval = Date.now() - startInterval;
-                        console.log("cc: " + currentInterval + "/" + opts.auto.speed);
-                        document.querySelector('.bss-slides').classList.add('is--paused');
-                        interval = clearInterval(interval);
 
+                    if (el.classList.contains('is--paused')) {
+                        el.classList.remove('is--paused');
+                        that.setBSSInterval();
+                    } else {
+                        el.classList.add('is--paused');
+                        interval = clearInterval(interval);
                     }
                 }, false);
 
 
+                /* setup all time buttons with data durations (1000ms * x Seconds) */
+                [].forEach.call(this.$timeButtons, function (el) {
 
-                el.querySelector('.bss-10min').addEventListener('click', function () {
-                    opts.auto.speed = 1000 * 6 * 10;
-                    console.log('speed: ' + opts.auto.speed);
-                    that.setAnimationDuration('.bss-timer--status','60s');
 
-                    interval = clearInterval(interval);
-                    window.setInterval(function () {
-                        that.showCurrent(1); // increment & show
-                    }, opts.auto.speed);
-                }, false);
-                el.querySelector('.bss-5min').addEventListener('click',function () {
-                    opts.auto.speed = 1000 * 6 * 5;
-                    console.log('speed: ' + opts.auto.speed);
-                    that.setAnimationDuration('.bss-timer--status','30s');
+                    el.addEventListener('click',function() {
+                        opts.auto.speed = el.dataset.duration;
+                        interval = clearInterval(interval);
 
-                    interval = clearInterval(interval);
-                    window.setInterval(function () {
-                        that.showCurrent(1); // increment & show
-                    }, opts.auto.speed);
-                }, false);
-                el.querySelector('.bss-2min').addEventListener('click',function () {
-                    opts.auto.speed = 1000 * 6 * 2;
-                    console.log('speed: ' + opts.auto.speed);
-                    that.setAnimationDuration('.bss-timer--status','12s');
+                        for (var i = 0; i < that.$timeButtons.length; i++) {
+                            that.$timeButtons[i].classList.remove('is--active')
+                        }
 
-                  interval = clearInterval(interval);
-                    window.setInterval(function () {
-                        that.showCurrent(1); // increment & show
-                    }, opts.auto.speed);
-                }, false);
-                el.querySelector('.bss-1min').addEventListener('click',function () {
-                    opts.auto.speed = 1000 * 6;
-                    console.log('speed: ' + opts.auto.speed);
-                    that.setAnimationDuration('.bss-timer--status','6s');
+                        el.classList.add('is--active');
+                        that.setBSSInterval();
+                    },false)
 
-                    interval = clearInterval(interval);
-                    window.setInterval(function () {
-                        that.showCurrent(1); // increment & show
-                    }, opts.auto.speed);
-                }, false);
-                el.querySelector('.bss-30sec').addEventListener('click',function () {
-
-                    opts.auto.speed = 1000 * 3;
-                    console.log('speed: ' + opts.auto.speed);
-
-                    that.setAnimationDuration('.bss-timer--status','3s');
-
-                    interval = clearInterval(interval);
-                    window.setInterval(function () {
-                        that.showCurrent(1); // increment & show
-                    }, opts.auto.speed);
-                }, false);
-
+                });
 
                 if (pauseOnHover) {
                     el.addEventListener('mouseover', function () {
-
                         interval = clearInterval(interval);
-
                     }, false);
+
                     el.addEventListener('mouseout', function () {
-                        interval = window.setInterval(function () {
-                            that.showCurrent(1); // increment & show
-                        }, speed);
+                        that.setBSSInterval();
                     }, false);
                 } // end pauseonhover
 
@@ -277,9 +244,10 @@ var makeBSS = function (el, options) {
 };
 var opts = {
     auto: {
-        speed: 3000,
+        speed: 10000,
         pauseOnHover: false
     },
+    orderMode: 'random',
     fullScreen: true,
     swipe: true
 };

@@ -19,17 +19,8 @@ body{
     from {width: 0%;}
     to {width: 100%;}
 }
-.bss-timer {
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
-    right: 2rem;
-    height: 0.5rem;
-    background: hsla(0,0%,100%,0.5);
-    border-radius: 4px;
-    z-index: 9999;
-    overflow: hidden;
-    opacity: 0;
+
+.has--shadow {
     -webkit-box-shadow:
             0 2px 3px 0 hsla(0,0%,0%,0.04),
             0 1px 2px 0 hsla(0,0%,0%,0.04),
@@ -43,121 +34,7 @@ body{
             0 1px 2px 0 hsla(0,0%,0%,0.04),
             0 1px 2px 0 hsla(0,0%,0%,0.18);
 }
-.bss-timer--status {
-    width: 0%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 0.5rem;
-    background: hsla(0,0%,100%,0.8);
-    -webkit-transition: width 5s linear;
-    transition: opacity 0.25s;
-}
-.bss-timer.is--playing {
-    opacity: 1;
-}
-.bss-timer.is--playing .bss-timer--status {
-/*
-    animation-name: timer;
-    animation-duration: 30000ms;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
-*/
 
-}
-
-.bss-controls {
-    position: fixed;
-    right: 2rem;
-    bottom: 2rem;
-    height: 2rem;
-    z-index: 9999;
-    width: 50%;
-    display: block;
-    text-align: right;
-}
-.bss-controls .control--buttons, .bss-controls .control--durations {
-    display: inline-block;
-}
-.bss-controls  a {
-    color: #000;
-    position: relative;
-    display: inline-block;
-    text-align:center;
-    vertical-align: top;
-    min-width: 2rem;
-    padding: 0.4rem 0.7rem;
-    margin-right: 2px;
-    height: 1.5rem;
-    line-height: 1.5rem;
-    background: rgba(255,255,255, 1);
-    font-size: 1rem;
-    font-weight: bold;
-    opacity: 1;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    -webkit-box-shadow:
-            0 2px 3px 0 hsla(0,0%,0%,0.04),
-            0 1px 2px 0 hsla(0,0%,0%,0.04),
-            0 1px 2px 0 hsla(0,0%,0%,0.18);
-    -moz-box-shadow:
-            0 2px 3px 0 hsla(0,0%,0%,0.04),
-            0 1px 2px 0 hsla(0,0%,0%,0.04),
-            0 1px 2px 0 hsla(0,0%,0%,0.18);
-    box-shadow:
-            0 2px 3px 0 hsla(0,0%,0%,0.04),
-            0 1px 2px 0 hsla(0,0%,0%,0.04),
-            0 1px 2px 0 hsla(0,0%,0%,0.18);
-}
-.bss-controls  a:hover {
-    background:hsl(0,0%,90%);
-    -webkit-box-shadow:
-            0 0px 6px hsla(0,0%,0%,0.04),
-            0 1px 2px hsla(0,0%,0%,0.04),
-            0 1px 2px hsla(0,0%,0%,0.18);
-    -moz-box-shadow:
-            0 2px 6px hsla(0,0%,0%,0.04),
-            0 1px 2px hsla(0,0%,0%,0.04),
-            0 1px 2px hsla(0,0%,0%,0.18);
-    box-shadow:
-            0 2px 6px hsla(0,0%,0%,0.04),
-            0 1px 2px hsla(0,0%,0%,0.04),
-            0 1px 2px hsla(0,0%,0%,0.18);
-}
-
-.bss-fullscreen{
-    background: rgba(0,0,0,.3) url(https://leemark.github.io/better-simple-slideshow/img/arrows-alt_ffffff_64.png);
-    background-size: contain;
-    cursor: pointer;
-    opacity: .3;
-}
-.bss-fullscreen:hover{
-    opacity: .8;
-}
-.bss-controls .control--buttons a {
-    background: #232323;
-    color: #fff;
-    text-align: center;
-}
-.bss-controls .control--buttons a:hover {
-    background:hsl(0,0%,26%);
-}
-.bss-slides.is--paused .bss-play-pause::before {
-    content: "";
-    display: block;
-    width: 2rem;
-    height: 1.5rem;
-    background: url("icons/ic_play_arrow_white_24px.svg") no-repeat center;
-}
-.bss-slides .bss-play-pause::before {
-    content: "";
-    display: block;
-    width: 2rem;
-    height: 1.5rem;
-    background: url("icons/ic_pause_white_24px.svg") no-repeat center;
-}
 .bss-slides{
     background: transparent;
     position: relative;
@@ -170,7 +47,6 @@ body{
 .bss-slides.is--paused .bss-timer .bss-timer--status {
     animation-play-state: paused !important;
 }
-
 .bss-slides figure{
     position: absolute;
     top: 0%;
@@ -237,16 +113,18 @@ body{
     width: 45%;
     color: #ffffff;
     opacity: 0;
-    display: block;
+    display: none;
     padding: 0.4rem 0.4rem;
-    transition: opacity 1.2s;
+    transition: opacity 1.2s ease-in-out 0.1s;
     text-shadow: 1px 2px rgba(0,0,0,0.18);
     border-radius: 4px;
     z-index: 9999;
 
 }
 .bss-slides figcaption:hover {
-    background: rgba(0,0,0,0.18);
+    background: rgba(23,23,23,1);
+    opacity: 1;
+    display: block;
 }
 .bss-slides figcaption.cc-0::before {
     content:"CC 0";
@@ -257,14 +135,139 @@ body{
     margin-right: 1rem;
     font-weight: 700;
     float:left;
+    border-radius: 4px;
 }
 .bss-slides .bss-show figcaption{
     z-index: 2;
     opacity: 1;
+    display: block;
 
 }
 .bss-slides figcaption a{
     color: #fff;
+}
+
+
+/* timer progress bar */
+.bss-timer {
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    right: 0rem;
+    height: 0.25rem;
+    background: hsla(0,0%,100%,0.5);
+    border-radius: 0px;
+    z-index: 9999;
+    overflow: hidden;
+    opacity: 0;
+}
+.bss-timer--status {
+    width: 0%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0.25rem;
+    background: hsla(0,0%,100%,0.8);
+
+}
+.bss-timer.is--playing {
+    opacity: 1;
+}
+.bss-timer.is--playing .bss-timer--status {
+    /*
+        animation-name: timer;
+        animation-duration: 30000ms;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+    */
+
+}
+
+/* buttons */
+.bss-controls {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    height: 2rem;
+    z-index: 9999;
+    width: 50%;
+    display: block;
+    text-align: right;
+}
+.bss-controls .control--buttons, .bss-controls .control--durations {
+    display: inline-block;
+}
+.bss-controls  a {
+    color: #000;
+    position: relative;
+    display: inline-block;
+    text-align:center;
+    vertical-align: top;
+    min-width: 2rem;
+    padding: 0.4rem 0.7rem;
+    margin-right: 2px;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    background: rgba(255,255,255, 1);
+    font-size: 1rem;
+    font-weight: bold;
+    opacity: 1;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+.bss-controls  a:hover {
+    background:hsl(0,0%,90%);
+    -webkit-box-shadow:
+            0 0px 6px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.18);
+    -moz-box-shadow:
+            0 2px 6px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.18);
+    box-shadow:
+            0 2px 6px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.04),
+            0 1px 2px hsla(0,0%,0%,0.18);
+}
+
+.bss-fullscreen{
+    background: rgba(0,0,0,.3) url(https://leemark.github.io/better-simple-slideshow/img/arrows-alt_ffffff_64.png);
+    background-size: contain;
+    cursor: pointer;
+    opacity: .3;
+}
+.bss-fullscreen:hover{
+    opacity: .8;
+}
+.bss-controls .control--buttons a {
+    background: #232323;
+    color: #fff;
+    text-align: center;
+}
+.bss-controls .control--buttons a:hover {
+    background:hsl(0,0%,26%);
+}
+.bss-controls .control--durations a.is--active {
+    box-shadow: inset 0 0px 0px 2px #232323;
+    background: #232323;
+    color: #fff;
+}
+.bss-slides.is--paused .bss-play-pause::before {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1.5rem;
+    background: url("icons/ic_play_arrow_white_24px.svg") no-repeat center;
+}
+.bss-slides .bss-play-pause::before {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1.5rem;
+    background: url("icons/ic_pause_white_24px.svg") no-repeat center;
 }
 
 :-webkit-full-screen .bss-fullscreen{
