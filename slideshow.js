@@ -1,6 +1,8 @@
 /*
 *       This is a fork of Mark Lees "A Better Simple Slideshow"
 *       https://codepen.io/leemark/pen/mwoHj
+*
+*       I added some Timing Functions, a Progress Bar and a random Shuffle Mode;
  */
 
 var makeBSS = function (el, options) {
@@ -188,11 +190,9 @@ var makeBSS = function (el, options) {
 
             },
             addFullScreen: function (el) {
-                var that = this,
-                    fsControl = document.createElement("span");
+                var that = this;
 
-                fsControl.classList.add('bss-fullscreen');
-                document.querySelector('.bss-controls').appendChild(fsControl);
+
                 el.querySelector('.bss-fullscreen').addEventListener('click', function () {
                     that.toggleFullScreen(el);
                 }, false);

@@ -40,6 +40,7 @@ body{
     position: relative;
     display: block;
     height: 100%;
+    width: 100%;
 }
 .bss-slides:focus{
     outline: 0;
@@ -216,6 +217,11 @@ body{
     cursor: pointer;
     border: none;
     border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out ;
+    -ms-transition: all .2s ease-in-out ;
+    -o-transition: all .2s ease-in-out ;
+    transition: all .2s ease-in-out ;
 }
 .bss-controls  a:hover {
     background:hsl(0,0%,90%);
@@ -233,15 +239,6 @@ body{
             0 1px 2px hsla(0,0%,0%,0.18);
 }
 
-.bss-fullscreen{
-    background: rgba(0,0,0,.3) url(https://leemark.github.io/better-simple-slideshow/img/arrows-alt_ffffff_64.png);
-    background-size: contain;
-    cursor: pointer;
-    opacity: .3;
-}
-.bss-fullscreen:hover{
-    opacity: .8;
-}
 .bss-controls .control--buttons a {
     background: #232323;
     color: #fff;
@@ -255,50 +252,58 @@ body{
     background: #232323;
     color: #fff;
 }
+
+.bss-slides .bss-fullscreen::before {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1.5rem;
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z'/></svg>") no-repeat center;
+}
 .bss-slides.is--paused .bss-play-pause::before {
     content: "";
     display: block;
     width: 2rem;
     height: 1.5rem;
-    background: url("icons/ic_play_arrow_white_24px.svg") no-repeat center;
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M8 5v14l11-7z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat center;
 }
+
 .bss-slides .bss-play-pause::before {
     content: "";
     display: block;
     width: 2rem;
     height: 1.5rem;
-    background: url("icons/ic_pause_white_24px.svg") no-repeat center;
-}
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M6 19h4V5H6v14zm8-14v14h4V5h-4z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat center;}
 
-:-webkit-full-screen .bss-fullscreen{
-    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
-    background-size: contain;
+.bss-slides .bss-next::before {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1.5rem;
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat center;}
+
+
+:-webkit-full-screen .bss-fullscreen::before{
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'/></svg>") no-repeat center;
 }
-:-moz-full-screen .bss-fullscreen{
-    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
-    background-size: contain;
+:-moz-full-screen .bss-fullscreen::before{
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'/></svg>") no-repeat center;
 }
-:-ms-fullscreen .bss-fullscreen{
-    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
-    background-size: contain;
+:-ms-fullscreen .bss-fullscreen::before{
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'/></svg>") no-repeat center;
 }
-:full-screen .bss-fullscreen{
-    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
-    background-size: contain;
+:full-screen .bss-fullscreen::before{
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'/></svg>") no-repeat center;
 }
-:-webkit-full-screen .bss-fullscreen{
-    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
-    background-size: contain;
+:-webkit-full-screen .bss-fullscreen::before{
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'/></svg>") no-repeat center;
 }
-:-moz-full-screen .bss-fullscreen{
-    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
-    background-size: contain;
+:-moz-full-screen .bss-fullscreen::before{
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'/></svg>") no-repeat center;
 }
-:-ms-fullscreen .bss-fullscreen{
-    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
-    background-size: contain;
+:-ms-fullscreen .bss-fullscreen::before{
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'/></svg>") no-repeat center;
 }
-:fullscreen .bss-fullscreen{
-    background: rgba(0,0,0,.4) url(https://leemark.github.io/better-simple-slideshow/img/compress_ffffff_64.png);
-    background-size: contain;
+:fullscreen .bss-fullscreen::before{
+    background: url("data:image/svg+xml;utf8,<svg fill='#FFFFFF' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h24v24H0z' fill='none'/><path d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z'/></svg>") no-repeat center;
 }
