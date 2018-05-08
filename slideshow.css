@@ -111,7 +111,7 @@ body{
     bottom: 2rem;
     left: 2rem;
     line-height: 1.2;
-    width: 45%;
+    width: 30%;
     color: #ffffff;
     opacity: 0;
     display: none;
@@ -192,7 +192,7 @@ body{
     bottom: 2rem;
     height: 2rem;
     z-index: 9999;
-    width: 50%;
+    width: 70%;
     display: block;
     text-align: right;
 }
@@ -206,12 +206,12 @@ body{
     text-align:center;
     vertical-align: top;
     min-width: 2rem;
-    padding: 0.4rem 0.7rem;
+    padding: 0.25rem 0.5rem;
     margin-right: 2px;
     height: 1.5rem;
     line-height: 1.5rem;
     background: rgba(255,255,255, 1);
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: bold;
     opacity: 1;
     cursor: pointer;
