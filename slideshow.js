@@ -26,7 +26,7 @@ var makeBSS = function (el, options) {
                     auto: (typeof options.auto === "undefined") ? false : options.auto,
                     speed: (typeof options.auto.speed === "undefined") ? 1500 : options.auto.speed,
                     pauseOnHover: (typeof options.auto.pauseOnHover === "undefined") ? false : options.auto.pauseOnHover,
-                    orderMode: (typeof options.auto.orderMode === "undefined") ? 'linear' : options.auto.orderMode,
+                    orderMode: (typeof options.auto.orderMode === "undefined") ? 'random' : options.auto.orderMode,
                     fullScreen: (typeof options.fullScreen === "undefined") ? false : options.fullScreen,
                     swipe: (typeof options.swipe === "undefined") ? false : options.swipe
                 };
